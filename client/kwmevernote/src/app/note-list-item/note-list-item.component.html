@@ -1,0 +1,7 @@
+@if (note && note.images && note.images[0]) {
+  <img class="ui tiny image" [src]="note.images[0].url"/>
+}
+<div class="content">
+  <div class="header">{{ note?.title }}</div>
+  <div class="description"> {{ note?.description }}</div>
+</div>

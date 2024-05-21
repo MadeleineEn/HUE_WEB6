@@ -1,0 +1,86 @@
+<h1>Formular für Notizen</h1>
+@if (isAdmin) {
+  <form class="ui large form" [formGroup]="noteForm"
+        (ngSubmit)="submitForm()">
+    <input type="hidden" formControlName="id">
+    <div class="field">
+      <label>Notiztitel</label>
+      <input formControlName="title">
+      @if (errors['title']) {
+        <div class="ui negative message"> {{ errors['title'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Beschreibung</label>
+      <textarea formControlName="description" rows="3"></textarea>
+    </div>
+    <div class="field">
+      <label>Benutzer</label>
+      <select formControlName="user_id" id="user_id">
+        <option value="">-- Bitte wählen --</option>
+        @for (user of users; track user) {
+          <option [value]="user.id">{{ user.firstname }} {{ user.lastname }}</option>
+        }
+      </select>
+      @if (errors['user_id']) {
+        <div class="ui negative message"> {{ errors['user_id'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Liste</label>
+      <select formControlName="register_id" id="register_id">
+        <option value="">-- Bitte wählen --</option>
+        @for (register of registers; track register) {
+          <option [value]="register.id">{{ register.title }}</option>
+        }
+      </select>
+      @if (errors['register_id']) {
+        <div class="ui negative message"> {{ errors['register_id'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Tag</label>
+      <select formControlName="labels" id="labels" multiple>
+        @for (label of labels; track label) {
+          <option [value]="label.id" [selected]="isSelected(label.id)">{{ label.title }}</option>
+        }
+      </select>
+      @if (errors['labels']) {
+        <div class="ui negative message"> {{ errors['labels'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Bilder</label>
+      <div formArrayName="images">
+        @for (control of images.controls; let i = $index, l = $last; track
+          control) {
+          <div class="fields" [formGroupName]="i">
+            <input type="hidden" formControlName="id">
+            <div class="nine wide field">
+              <input formControlName="url"
+                     placeholder="http://bild{{i+1}}_url">
+            </div>
+            <div class="six wide field">
+              <input formControlName="title" placeholder="Bild{{i+1}}_Titel">
+            </div>
+            @if (l) {
+              <div class="one wide field">
+                <button (click)="addThumbnailControl()" class="ui large button" type="button">+
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      @if (errors['images']) {
+        <div class="ui negative message">{{ errors['images'] }}{{ errors['url'] }}</div>
+      }
+    </div>
+    <div class="ui container center aligned">
+      <button type="submit" class="ui button" [disabled]="noteForm.invalid">Speichern</button>
+    </div>
+  </form>
+}
+ @else {
+   <div>Keine Berechtigung zum Erstellen von Notizen</div>
+ }

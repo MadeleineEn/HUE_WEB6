@@ -1,0 +1,53 @@
+<!-- Header -->
+<header class="ui vertical green header segment center aligned">
+  <div class="ui container">
+    <p>KWM Evernote</p>
+  </div>
+</header>
+
+<style>
+  .center-menu, .home {
+    display: flex;
+    justify-content: center;
+    margin: 1em 0em;
+  }
+
+  .marged {
+    margin: 2em 0em;
+  }
+</style>
+<div class="ui home">
+  <button [routerLink]="'/home'" class="ui red labeled icon button"><i class="home icon"></i>Home</button>
+</div>
+
+<!-- Menü-->
+<div class="ui center-menu">
+  @if (authService.isLoggedIn()) {
+    <a routerLink="notes" class="ui green labeled icon button"><i class="sticky note icon"></i>Notizen</a>
+    <a routerLink="registers" class="ui orange labeled icon button"><i class="list icon"></i>Listen</a>
+    <a routerLink="todos" class="ui blue labeled icon button"><i class="pin icon"></i>To-Dos</a>
+    <a routerLink="labels" class="ui violet labeled icon button"><i class="tag icon"></i>Tags</a>
+    <a routerLink="users" class="ui brown labeled icon button"><i class="user icon"></i>Benutzer</a>
+  }
+  <a routerLink="login" class="ui black labeled icon button"><i class="arrow right icon"></i>{{ getLoginLabel() }}</a>
+</div>
+@if (authService.isLoggedIn()) {
+  <div class="ui center-menu">
+    <a class="ui grey labeled icon button" routerLink="noteadmin" routerLinkActive="active"><i
+      class="sticky note icon"></i>Notizformular</a>
+    <a class="ui grey labeled icon button" routerLink="registeradmin" routerLinkActive="active"><i
+      class="list icon"></i>Listenformular</a>
+    <a class="ui grey labeled icon button" routerLink="todoadmin" routerLinkActive="active"><i class="pin icon"></i>Todoformular</a>
+    <a class="ui grey labeled icon button" routerLink="labeladmin" routerLinkActive="active"><i class="tag icon"></i>Tagformular</a>
+  </div>
+}
+
+<!-- Ansicht Details oder Liste -->
+<div class="ui container marged">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Footer-->
+<footer class="ui secondary vertical footer segment center aligned marged">
+  <p>© 2024 - Madeleine Enser</p>
+</footer>

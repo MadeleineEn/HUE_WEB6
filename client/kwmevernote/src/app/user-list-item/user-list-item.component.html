@@ -1,0 +1,10 @@
+@if (user) {
+  @if (user.image) {
+    <img class="ui tiny image" [src]="user.image.url">
+  }
+  <div class="content">
+    <div class="header">{{ user?.firstname }} {{user?.lastname}}</div>
+    <div class="description"> {{ user?.email }}</div>
+  </div>
+}
+

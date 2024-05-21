@@ -1,0 +1,31 @@
+<h1>Formular für Listen</h1>
+@if (isAdmin) {
+  <form class="ui large form" [formGroup]="registerForm" (ngSubmit)="submitForm()">
+    <input type="hidden" formControlName="id">
+    <div class="field">
+      <label for="title">Titel</label>
+      <input type="text" id="title" formControlName="title">
+      @if (errors['title']) {
+        <div class="ui negative message"> {{ errors['title'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label for="is_public">Sichtbarkeit</label>
+      <select id="is_public" formControlName="is_public">
+        <option value="">-- Bitte wählen --</option>
+        <option [value]="0">Privat</option>
+        <option [value]="1">Öffentlich</option>
+      </select>
+      @if (errors['is_public']) {
+        <div class="ui negative message"> {{ errors['is_public'] }}</div>
+      }
+    </div>
+
+    <div class="ui container center aligned">
+      <button type="submit" class="ui button" [disabled]="registerForm.invalid">Speichern</button>
+    </div>
+  </form>
+}
+@else{
+  <div>Keine Berechtigung zum Erstellen von Listen</div>
+}

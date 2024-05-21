@@ -1,0 +1,61 @@
+@if (note) {
+  <div class="ui grid">
+    <div class="four wide column">
+      @if (note.images && note.images.length > 0) {
+        @for (image of note.images; track image) {
+          <img class="ui large image" [src]="image.url">
+        }
+      }
+    </div>
+    <div class="twelve wide column">
+      <h1 class="ui header">{{ note.title }}</h1>
+      <h4 class="ui header">Beschreibung</h4>
+      {{ note.description }}
+      <div class="ui divider"></div>
+      <div class="ui grid">
+        <div class="four wide column">
+          <h4 class="ui header">Benutzer</h4>
+          <div>ID: {{ note.user_id }}</div>
+        </div>
+        <div class="four wide column">
+          <h4 class="ui header">Liste</h4>
+          <div>ID: {{ note.register_id }}</div>
+        </div>
+        <div class="four wide column">
+          <h4 class="ui header">Tag</h4>
+          @if (note.labels && note.labels.length > 0) {
+            @for (label of note.labels; track label) {
+              <div>{{ label.title }}</div>
+            }
+          } @else {
+            <div>Kein Tag vorhanden.</div>
+          }
+        </div>
+        <div class="four wide column">
+          <h4 class="ui header">To-Dos</h4>
+          @if (note.todos && note.todos.length > 0) {
+            @for (todo of note.todos; track todo) {
+              <div>{{ todo.title }}</div>
+            }
+          } @else {
+            <div>Kein To-Do vorhanden.</div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!-- Button zum Bearbeiten, Löschen -->
+@if(isAdmin){
+  <div class="ui segment">
+    <button class="ui orange labeled icon button" [routerLink]="['../../noteadmin', note.id]"><i class="write icon"></i>Notiz
+      bearbeiten</button>
+    <button class="ui red labeled icon button" (click)="removeNote()"><i class="remove icon"></i>Notiz löschen</button>
+  </div>
+}
+
+<div class="ui segment">
+  <button [routerLink]="'/home'" class="ui yellow labeled icon button"><i class="home icon"></i>Home</button>
+  <button [routerLink]="'/notes'" class="ui grey labeled icon button"><i class="arrow left icon"></i>Zurück zur Liste
+  </button>
+</div>

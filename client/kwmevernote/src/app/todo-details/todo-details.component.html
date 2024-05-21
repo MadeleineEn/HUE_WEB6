@@ -1,0 +1,74 @@
+@if (todo) {
+  <div class="ui grid">
+    <div class="four wide column">
+      @if (todo.images && todo.images.length > 0) {
+        @for (image of todo.images; track image) {
+          <img class="ui large image" [src]="image.url">
+        }
+      }
+    </div>
+    <div class="twelve wide column">
+      <h1 class="ui header">{{ todo.title }}</h1>
+      <h4 class="ui header">Beschreibung</h4>
+      {{ todo.description }}
+      <div class="ui divider"></div>
+      <div class="ui grid">
+        <div class="five wide column">
+          <h4 class="ui header">Benutzer</h4>
+          @if (todo.users && todo.users.length > 0) {
+            @for (user of todo.users; track user) {
+              <div>{{ user.firstname }} {{ user.lastname }}</div>
+            }
+          } @else {
+            <div>Kein*e Benutzer*in vorhanden.</div>
+          }
+        </div>
+        <div class="five wide column">
+          <h4 class="ui header">Fälligkeitsdatum</h4>
+          <div>{{ todo.due_date | date: 'longDate' }}</div>
+        </div>
+        <div class="four wide column">
+          <h4 class="ui header">Informationen</h4>
+          @if (todo.is_public == true) {
+            <div>Öffentliches Todo</div>
+          } @else {
+            <div>Privates Todo</div>
+          }
+          <div>Erstellt am {{ todo.created_at | date: 'longDate' }}</div>
+        </div>
+        <div class="five wide column">
+          <h4 class="ui header">Tags</h4>
+          @if (todo.labels && todo.labels.length > 0) {
+            @for (label of todo.labels; track label) {
+              <div>{{ label.title }}</div>
+            }
+          } @else {
+            <div>Kein Tag vorhanden.</div>
+          }
+        </div>
+        <div class="five wide column">
+          <h4 class="ui header">Notiz</h4>
+          @if (todo.note_id) {
+            <div>ID: {{ todo.note_id }}</div>
+          } @else {
+            <div>Keine Notiz vorhanden.</div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}
+@if (isAdmin) {
+  <div class="ui segment">
+    <button class="ui orange labeled icon button" [routerLink]="['../../todoadmin', todo.id]">
+      <i class="write icon"></i>To-Do bearbeiten
+    </button>
+    <button class="ui red labeled icon button" (click)="removeTodo()"><i class="remove icon"></i>To-Do löschen</button>
+  </div>
+}
+
+<div class="ui segment">
+  <button [routerLink]="'/home'" class="ui yellow labeled icon button"><i class="home icon"></i>Home</button>
+  <button [routerLink]="'/todos'" class="ui grey labeled icon button"><i class="arrow left icon"></i>Zurück zur Liste
+  </button>
+</div>

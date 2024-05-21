@@ -1,0 +1,17 @@
+<div class="ui container">
+  <h1 class="ui blue header"><i class="pin icon blue"></i> To-Dos</h1>
+  <p>Für mehr Informationen auf die To-Do-Namen klicken.</p>
+  <div class="ui middle aligned selection divided list">
+    @for (todo of todos; track todo) {
+      <a class="item kwm-todo-list-item" [todo]="todo"
+         [routerLink]="todo.id.toString()"></a>
+    }
+    @if(!todos){
+      <div class="ui active dimmer">
+        <div class="ui large text loader">Daten werden geladen...</div>
+      </div>
+    } @if(todos && !todos.length){
+    <p>Es wurden noch keine To-Dos eingetragen.</p>
+  }
+  </div>
+</div>

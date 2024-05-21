@@ -1,0 +1,18 @@
+<div class="ui container">
+  <div class="ui search" [ngClass]="{ loading: isLoading }">
+    <div class="ui icon input">
+      <input (keyup)="keyup.emit(searchTerm.value)" #searchTerm class="prompt"
+             type="text" placeholder="Suche...">
+      <i class="search icon"></i>
+    </div>
+    <div class="results transition" [ngClass]="{ visible: foundLabels.length}">
+      @for (label of foundLabels; track label){
+        <a href (click)="labelSelected.emit(label); false" class="result">
+          <div class="content">
+            <div class="title" >{{ label.title }}</div>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</div>

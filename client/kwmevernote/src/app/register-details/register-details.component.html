@@ -1,0 +1,55 @@
+@if (register) {
+  <div class="ui grid">
+    <div class="twelve wide column">
+      <h1 class="ui header">Liste: {{ register.title }}</h1>
+    </div>
+  </div>
+  <div class="ui grid">
+    <div class="four wide column">
+      <h4 class="ui header">Notizen</h4>
+      @if (register.notes != null && register.notes.length > 0) {
+        @for (note of register.notes; track note) {
+          <div>{{ note.title }}</div>
+        }
+      } @else {
+        <div>Keine Notizen zu dieser Liste vorhanden.</div>
+      }
+    </div>
+    <div class="four wide column">
+      <h4 class="ui header">Benutzer</h4>
+      @if (register.users != null && register.users.length > 0) {
+        @for (user of register.users; track user) {
+          <div>{{ user.firstname }} {{ user.lastname }}</div>
+        }
+      } @else {
+        <div>Keine Benutzer zu dieser Liste vorhanden.</div>
+      }
+    </div>
+    <div class="four wide column">
+      <h4 class="ui header">Informationen</h4>
+      @if (register.is_public == true) {
+        <div>Öffentliche Liste</div>
+      } @else {
+        <div>Private Liste</div>
+      }
+      <div>Erstellt am {{ register.created_at | date: 'longDate' }}</div>
+    </div>
+  </div>
+}
+
+<!-- Button zum Bearbeiten, Löschen -->
+@if (isAdmin) {
+  <div class="ui segment">
+    <button class="ui orange labeled icon button" [routerLink]="['../../registeradmin',register.id]"><i
+      class="edit icon"></i>Liste bearbeiten
+    </button>
+    <button class="ui red labeled icon button" (click)="removeRegister()"><i class="remove icon"></i>Liste löschen
+    </button>
+  </div>
+}
+<div class="ui segment">
+  <button [routerLink]="'/home'" class="ui yellow labeled icon button"><i class="home icon"></i>Home</button>
+  <button [routerLink]="'/registers'" class="ui grey labeled icon button"><i class="arrow left icon"></i>Zurück zur
+    Liste
+  </button>
+</div>

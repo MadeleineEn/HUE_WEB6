@@ -1,0 +1,32 @@
+@if (label) {
+  <div class="ui grid">
+    <div class="twelve wide column">
+      <h2 class="ui header">Tag: {{ label.title }}</h2>
+    </div>
+  </div>
+  <div class="ui grid">
+    <div class="four wide column">
+      <h4 class="ui header">Benutzer</h4>
+      @if (label.user_id) {
+        <div>ID: {{ label.user_id }}</div>
+      } @else {
+        <div>Kein Benutzer vorhanden.</div>
+      }
+    </div>
+  </div>
+}
+
+<!-- Button zum Bearbeiten, Löschen -->
+@if (isAdmin) {
+  <div class="ui segment">
+    <button class="ui orange labeled icon button" [routerLink]="['../../labeladmin',label.id]"><i class="edit icon"></i>
+      Tag bearbeiten
+    </button>
+    <button class="ui red labeled icon button" (click)="removeLabel()"><i class="remove icon"></i>Tag löschen</button>
+  </div>
+}
+<div class="ui segment">
+  <button [routerLink]="'/home'" class="ui yellow labeled icon button"><i class="home icon"></i>Home</button>
+  <button [routerLink]="'/labels'" class="ui grey labeled icon button"><i class="arrow left icon"></i>Zurück zur Liste
+  </button>
+</div>

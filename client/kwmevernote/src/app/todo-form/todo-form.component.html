@@ -1,0 +1,117 @@
+<h1>Formular für To-Dos</h1>
+@if (isAdmin) {
+  <form class="ui large form" [formGroup]="todoForm" (ngSubmit)="submitForm()">
+    <input type="hidden" formControlName="id">
+    <div class="field">
+      <label for="title">Titel</label>
+      <input type="text" id="title" formControlName="title">
+      @if (errors['title']) {
+        <div class="ui negative message"> {{ errors['title'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label for="description">Beschreibung</label>
+      <textarea id="description" formControlName="description"></textarea>
+      @if (errors['description']) {
+        <div class="ui negative message"> {{ errors['description'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Fälligkeitsdatum</label>
+      <input type="date" formControlName="due_date">
+      @if (errors['due_date']) {
+        <div class="ui negative message">{{ errors['due_date'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label for="is_public">Sichtbarkeit</label>
+      <select id="is_public" formControlName="is_public">
+        <option value="">-- Bitte wählen --</option>
+        <option [value]="0">Privat</option>
+        <option [value]="1">Öffentlich</option>
+      </select>
+      @if (errors['is_public']) {
+        <div class="ui negative message"> {{ errors['is_public'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label>Bilder</label>
+      <div formArrayName="images">
+        @for (control of images.controls; let i = $index, l = $last; track control) {
+          <div class="fields" [formGroupName]="i">
+            <input type="hidden" formControlName="id">
+            <div class="nine wide field">
+              <input formControlName="url" placeholder="http://bild{{i+1}}_url">
+            </div>
+            <div class="six wide field">
+              <input formControlName="title" placeholder="Bild{{i+1}}_Titel">
+            </div>
+            @if (l) {
+              <div class="one wide field">
+                <button (click)="addThumbnailControl()" class="ui large button" type="button">+</button>
+              </div>
+            }
+
+          </div>
+        }
+      </div>
+      @if (errors['images']) {
+        <div class="ui negative message">{{ errors['images'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label for="note_id">Notiz</label>
+      <select id="note_id" formControlName="note_id">
+        <option value="">Keine Notiz</option>
+        @for (note of notes; track note) {
+          <option [value]="note.id">{{ note.title }}</option>
+        }
+      </select>
+      @if (errors['note_id']) {
+        <div class="ui negative message"> {{ errors['note_id'] }}</div>
+      }
+    </div>
+    <div class="field">
+      <label for="labels">Tags</label>
+      <div formArrayName="labels">
+        @for (control of labels.controls; let j = $index; track control) {
+          <div class="fields" [formGroupName]="j">
+            <select id="labels" formControlName="id">
+              <option value="">Kein Tag</option>
+              @for (label of existingLabels; track label) {
+                <option [value]="label.id">{{ label.title }}</option>
+              }
+            </select>
+            <input type="hidden" formControlName="user_id">
+          </div>
+        }
+      </div>
+    </div>
+    <div class="field">
+      <label for="users">Benutzer</label>
+      <div formArrayName="users">
+        @for (control of users.controls; let k = $index; track control) {
+          <div class="fields" [formGroupName]="k">
+            <select id="users" formControlName="id">
+              <option value="">Kein*e Benutzer*in</option>
+              @for (user of existingUsers; track user) {
+                <option [value]="user.id">{{ user.firstname }} {{user.lastname}}</option>
+              }
+            </select>
+            <input type="hidden" formControlName="username">
+            <input type="hidden" formControlName="email">
+            <input type="hidden" formControlName="email_verified_at">
+            <input type="hidden" formControlName="password">
+            <input type="hidden" formControlName="remember_token">
+            <input type="hidden" formControlName="role">
+          </div>
+        }
+      </div>
+    </div>
+    <div class="ui container center aligned">
+      <button type="submit" class="ui button" [disabled]="todoForm.invalid">Speichern</button>
+    </div>
+  </form>
+} @else {
+  <div>Keine Berechtigung zum Erstellen von To-Dos</div>
+}

@@ -1,0 +1,7 @@
+@if (todo && todo.images && todo.images[0]) {
+  <img class="ui tiny image" [src]="todo.images[0].url"/>
+}
+<div class="content">
+  <div class="header">{{ todo?.title }}</div>
+  <div class="description"> {{ todo?.description }}</div>
+</div>

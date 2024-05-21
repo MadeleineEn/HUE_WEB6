@@ -1,0 +1,18 @@
+<div class="ui container">
+  <h1 class="ui orange header"><i class="list icon orange"></i> Listen</h1>
+  <p>Für mehr Informationen auf die Listen-Namen klicken.</p>
+  <div class="ui middle aligned selection divided list">
+    @for (register of registers; track register) {
+      <a class="item kwm-register-list-item" [register]="register"
+         [routerLink]="register.id.toString()"></a>
+    }
+    @if (!registers) {
+      <div class="ui active dimmer">
+        <div class="ui large text loader">Daten werden geladen...</div>
+      </div>
+    }
+    @if (registers && !registers.length) {
+      <p>Es wurden noch keine Listen eingetragen.</p>
+    }
+  </div>
+</div>
